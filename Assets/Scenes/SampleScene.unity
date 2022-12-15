@@ -1180,8 +1180,8 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 5901452235038955250}
-  m_Follow: {fileID: 543450653510042737}
+  m_LookAt: {fileID: 1593013186398802688}
+  m_Follow: {fileID: 4645207905762886019}
   m_CommonLens: 1
   m_Lens:
     FieldOfView: 40
@@ -1601,12 +1601,7 @@ Transform:
   m_Father: {fileID: 1628657094}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &543450653510042737 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 641990292463904954, guid: 6fe6594782751c54c998c82a8a817e6d, type: 3}
-  m_PrefabInstance: {fileID: 5233140159206795577}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &5233140159206795577
+--- !u!1001 &850925308625551887
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1661,6 +1656,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1108580090573240952, guid: 6fe6594782751c54c998c82a8a817e6d, type: 3}
+      propertyPath: _shootRate
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1108580091277601247, guid: 6fe6594782751c54c998c82a8a817e6d, type: 3}
+      propertyPath: _aimDuration
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 1108580091340407540, guid: 6fe6594782751c54c998c82a8a817e6d, type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
@@ -1679,8 +1682,13 @@ PrefabInstance:
       objectReference: {fileID: 1014014624}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fe6594782751c54c998c82a8a817e6d, type: 3}
---- !u!4 &5901452235038955250 stripped
+--- !u!4 &1593013186398802688 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6810669906586663481, guid: 6fe6594782751c54c998c82a8a817e6d, type: 3}
-  m_PrefabInstance: {fileID: 5233140159206795577}
+  m_PrefabInstance: {fileID: 850925308625551887}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4645207905762886019 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 641990292463904954, guid: 6fe6594782751c54c998c82a8a817e6d, type: 3}
+  m_PrefabInstance: {fileID: 850925308625551887}
   m_PrefabAsset: {fileID: 0}
