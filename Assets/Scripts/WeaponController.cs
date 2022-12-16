@@ -15,14 +15,14 @@ public class WeaponController : MonoBehaviour
         if (Input.GetMouseButton(1))
         {
             _aimModeRigLayer.weight += Time.deltaTime / _aimDuration;
-            _isReadyShoot = true;
         }
         else
         {
             _aimModeRigLayer.weight -= Time.deltaTime / _aimDuration;
-            _isReadyShoot = false;
         }
 
+        _isReadyShoot = _aimModeRigLayer.weight >= 1;
+        
         if (_isReadyShoot)
         {
             if (Input.GetMouseButtonDown(0))

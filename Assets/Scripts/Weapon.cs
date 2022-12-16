@@ -4,9 +4,10 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     [SerializeField] private Transform _muzzle;
-    [SerializeField] private float _shootRate = 0.04f;
+    [SerializeField] private float _rateShootPerSecond = 0.04f;
 
     private float _accumulatedTime;
+    private float _timeForOneShot;
     public bool IsShooting { get; private set; }
     
     private Ray _ray;
@@ -16,6 +17,7 @@ public class Weapon : MonoBehaviour
     private void Start()
     {
         _weaponEffectController = GetComponent<WeaponEffectController>();
+        _timeForOneShot = 1f / _rateShootPerSecond;
     }
 
     public void StartShooting()
@@ -31,7 +33,7 @@ public class Weapon : MonoBehaviour
         while (_accumulatedTime >= 0)
         {
             Shoot();
-            _accumulatedTime -= _shootRate;
+            _accumulatedTime -= _timeForOneShot;
         }
     }
 
@@ -52,4 +54,9 @@ public class Weapon : MonoBehaviour
             _weaponEffectController.PlayHitEffect(hitInfo);
         }
     }
+}
+
+public class Bullet : MonoBehaviour
+{
+    
 }

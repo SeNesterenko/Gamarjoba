@@ -1660,6 +1660,10 @@ PrefabInstance:
       propertyPath: _shootRate
       value: 0.15
       objectReference: {fileID: 0}
+    - target: {fileID: 1108580090573240952, guid: 6fe6594782751c54c998c82a8a817e6d, type: 3}
+      propertyPath: _rateShootPerSecond
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1108580091277601247, guid: 6fe6594782751c54c998c82a8a817e6d, type: 3}
       propertyPath: _aimDuration
       value: 0.2
