@@ -1592,7 +1592,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2145217727}
-  m_LocalRotation: {x: 0.17969106, y: 0.0000019548747, z: -0.00000035708575, w: 0.9837231}
+  m_LocalRotation: {x: 0.17969105, y: 0.000001921022, z: -0.00000035090207, w: 0.9837231}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1656,6 +1656,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1108580090573240952, guid: 6fe6594782751c54c998c82a8a817e6d, type: 3}
+      propertyPath: _bullet
+      value: 
+      objectReference: {fileID: 4188492739308640656, guid: 2d41bd898dde9d54bb3cf5da7b72f9c3, type: 3}
     - target: {fileID: 1108580090573240952, guid: 6fe6594782751c54c998c82a8a817e6d, type: 3}
       propertyPath: _shootRate
       value: 0.15

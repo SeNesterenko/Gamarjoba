@@ -5,7 +5,8 @@ public class Weapon : MonoBehaviour
 {
     [SerializeField] private Transform _muzzle;
     [SerializeField] private float _rateShootPerSecond = 0.04f;
-
+    [SerializeField] private Bullet _bullet;
+    
     private float _accumulatedTime;
     private float _timeForOneShot;
     public bool IsShooting { get; private set; }
@@ -53,10 +54,8 @@ public class Weapon : MonoBehaviour
         {
             _weaponEffectController.PlayHitEffect(hitInfo);
         }
-    }
-}
 
-public class Bullet : MonoBehaviour
-{
-    
+        var bullet = Instantiate(_bullet, _muzzle.position, _muzzle.rotation);
+        bullet.Initialize(_muzzle.forward);
+    }
 }
