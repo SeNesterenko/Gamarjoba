@@ -9,6 +9,8 @@ public class Weapon : MonoBehaviour
 
     [SerializeField] private string _weaponName;
 
+    [SerializeField] private WeaponSlots _weaponSlot;
+    
     private float _accumulatedTime;
     private float _timeForOneShot;
     public bool IsShooting { get; private set; }
@@ -26,6 +28,11 @@ public class Weapon : MonoBehaviour
     public string GetWeaponName()
     {
         return _weaponName;
+    }
+
+    public int GetWeaponSlot()
+    {
+        return (int) _weaponSlot;
     }
 
     public void StartShooting()

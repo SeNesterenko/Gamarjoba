@@ -9947,6 +9947,7 @@ MonoBehaviour:
   _rateShootPerSecond: 0.5
   _bullet: {fileID: 4188492739308640656, guid: 2d41bd898dde9d54bb3cf5da7b72f9c3, type: 3}
   _weaponName: Pistol
+  _weaponSlot: 1
 --- !u!1 &7659710827286360546
 GameObject:
   m_ObjectHideFlags: 0
