@@ -6,7 +6,9 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Transform _muzzle;
     [SerializeField] private float _rateShootPerSecond = 0.04f;
     [SerializeField] private Bullet _bullet;
-    
+
+    [SerializeField] private AnimationClip _weaponAnimation;
+
     private float _accumulatedTime;
     private float _timeForOneShot;
     public bool IsShooting { get; private set; }
@@ -19,6 +21,11 @@ public class Weapon : MonoBehaviour
     {
         _weaponEffectController = GetComponent<WeaponEffectController>();
         _timeForOneShot = 1f / _rateShootPerSecond;
+    }
+
+    public AnimationClip GetWeaponAnimation()
+    {
+        return _weaponAnimation;
     }
 
     public void StartShooting()
