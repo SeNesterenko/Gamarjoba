@@ -9831,7 +9831,7 @@ MonoBehaviour:
   _muzzle: {fileID: 7659710827286360557}
   _rateShootPerSecond: 10
   _bullet: {fileID: 4188492739308640656, guid: 2d41bd898dde9d54bb3cf5da7b72f9c3, type: 3}
-  _weaponAnimation: {fileID: 7400000, guid: a8d9e52e10495604281e9a9b36ef33bc, type: 2}
+  _weaponName: Shotgun
 --- !u!1 &7659710827286360546
 GameObject:
   m_ObjectHideFlags: 0

@@ -9944,9 +9944,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _muzzle: {fileID: 7659710827286360557}
-  _rateShootPerSecond: 10
+  _rateShootPerSecond: 0.5
   _bullet: {fileID: 4188492739308640656, guid: 2d41bd898dde9d54bb3cf5da7b72f9c3, type: 3}
-  _weaponAnimation: {fileID: 7400000, guid: d47007f530b3f7443944b84b25764597, type: 2}
+  _weaponName: Pistol
 --- !u!1 &7659710827286360546
 GameObject:
   m_ObjectHideFlags: 0

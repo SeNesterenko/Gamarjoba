@@ -7,7 +7,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float _rateShootPerSecond = 0.04f;
     [SerializeField] private Bullet _bullet;
 
-    [SerializeField] private AnimationClip _weaponAnimation;
+    [SerializeField] private string _weaponName;
 
     private float _accumulatedTime;
     private float _timeForOneShot;
@@ -23,9 +23,9 @@ public class Weapon : MonoBehaviour
         _timeForOneShot = 1f / _rateShootPerSecond;
     }
 
-    public AnimationClip GetWeaponAnimation()
+    public string GetWeaponName()
     {
-        return _weaponAnimation;
+        return _weaponName;
     }
 
     public void StartShooting()

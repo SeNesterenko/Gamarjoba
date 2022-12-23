@@ -1,31 +1,16 @@
-using UnityEditor.Animations;
 using UnityEngine;
-using UnityEngine.Animations.Rigging;
 
 public class WeaponController : MonoBehaviour
 {
-    [SerializeField] private float _aimDuration;
-    [SerializeField] private Rig _aimModeRigLayer;
-
     [SerializeField] private Transform _weaponPivot;
-    [SerializeField] private Rig _rigLayerHand;
-
-    [SerializeField] private Transform _weaponRightHandGrip;
-    [SerializeField] private Transform _weaponLeftHandGrip;
-
+    [SerializeField] private Animator _rigLayer;
+    
     private Weapon _weapon;
-
-    private Animator _animator;
-    private AnimatorOverrideController _animatorOverride;
-
     private bool _isWeaponEquip;
-    private bool _isReadyShoot;
+    private static readonly int IsHolstered = Animator.StringToHash("IsHolstered");
 
     private void Start()
     {
-        _animator = GetComponent<Animator>();
-        _animatorOverride = _animator.runtimeAnimatorController as AnimatorOverrideController;
-        
         var existingWeapon = GetComponentInChildren<Weapon>();
 
         if (existingWeapon)
@@ -36,19 +21,9 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        _isReadyShoot = _aimModeRigLayer.weight >= 1;
         _isWeaponEquip = _weapon != null;
-        
-        if (!_isWeaponEquip)
-        {
-            _rigLayerHand.weight = 0f;
-            _animator.SetLayerWeight(1, 0f);
-            return;
-        }
 
-        _rigLayerHand.weight = 1f;
-
-        if (_isReadyShoot && _isWeaponEquip)
+        if (_isWeaponEquip)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -63,6 +38,12 @@ public class WeaponController : MonoBehaviour
             if (Input.GetMouseButtonUp(0))
             {
                 _weapon.StopShooting();   
+            }
+
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                var isHolstered = _rigLayer.GetBool(IsHolstered);
+                _rigLayer.SetBool(IsHolstered, !isHolstered);
             }
         }
     }
@@ -80,24 +61,6 @@ public class WeaponController : MonoBehaviour
         _weapon.transform.localPosition = Vector3.zero;
         _weapon.transform.localRotation = Quaternion.identity;
         
-        _animator.SetLayerWeight(1, 1f);
-        _animatorOverride["WeaponAnimationEmpty"] = _weapon.GetWeaponAnimation();
-    }
-
-    [ContextMenu("Save weapon pose")]
-    private void SaveWeaponPose()
-    {
-        var recorder = new GameObjectRecorder(gameObject);
-        
-        recorder.BindComponentsOfType<Transform>(_weaponPivot.gameObject, false);
-        recorder.BindComponentsOfType<Transform>(_weaponLeftHandGrip.gameObject, false);
-        recorder.BindComponentsOfType<Transform>(_weaponRightHandGrip.gameObject, false);
-        
-        recorder.TakeSnapshot(0f);
-
-        var weaponAnimation = _weapon.GetWeaponAnimation();
-        recorder.SaveToClip(weaponAnimation);
-        
-        UnityEditor.AssetDatabase.SaveAssets();
+        _rigLayer.Play("Equip" + _weapon.GetWeaponName());
     }
 }
