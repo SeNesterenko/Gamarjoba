@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 
 [RequireComponent(typeof(WeaponEffectController))]
@@ -8,7 +9,6 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Bullet _bullet;
 
     [SerializeField] private string _weaponName;
-
     [SerializeField] private WeaponSlots _weaponSlot;
     
     private float _accumulatedTime;
@@ -16,13 +16,17 @@ public class Weapon : MonoBehaviour
     public bool IsShooting { get; private set; }
     
     private Ray _ray;
-
     private WeaponEffectController _weaponEffectController;
 
     private void Start()
     {
-        _weaponEffectController = GetComponent<WeaponEffectController>();
         _timeForOneShot = 1f / _rateShootPerSecond;
+    }
+
+    public void Initialize(CinemachineFreeLook playerCamera, Animator rigLayer)
+    {
+        _weaponEffectController = GetComponent<WeaponEffectController>();
+        _weaponEffectController.Initialize(playerCamera, rigLayer);
     }
 
     public string GetWeaponName()
@@ -60,7 +64,8 @@ public class Weapon : MonoBehaviour
     private void Shoot()
     {
         _weaponEffectController.PlayShootEffect();
-
+        _weaponEffectController.GenerateRecoil(_weaponName);
+        
         _ray.origin = _muzzle.position;
         _ray.direction = _muzzle.forward;
 

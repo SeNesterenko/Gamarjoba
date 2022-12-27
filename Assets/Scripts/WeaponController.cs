@@ -1,12 +1,14 @@
 using System.Collections;
+using Cinemachine;
 using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
-    [SerializeField] private Transform[] _weaponSlots;
+    [SerializeField] private CinemachineFreeLook _playerCamera;
     [SerializeField] private Animator _rigLayer;
-    
-    private Weapon[] _equippedWeapons = new Weapon[2];
+    [SerializeField] private Transform[] _weaponSlots;
+
+    private readonly Weapon[] _equippedWeapons = new Weapon[2];
     private int _activeWeaponIndex;
     
     private bool _isWeaponEquip;
@@ -17,6 +19,7 @@ public class WeaponController : MonoBehaviour
     private void Start()
     {
         _activeWeaponIndex = -1;
+        
         var existingWeapon = GetComponentInChildren<Weapon>();
 
         if (existingWeapon)
@@ -27,11 +30,10 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        var weapon = GetWeapon(_activeWeaponIndex);
-        _isWeaponEquip = weapon != null;
-
         if (_isWeaponEquip)
         {
+            var weapon = GetWeapon(_activeWeaponIndex);
+            
             if (Input.GetKeyDown(KeyCode.X))
             {
                 ToggleActiveWeapon();
@@ -80,29 +82,25 @@ public class WeaponController : MonoBehaviour
         }
         
         weapon = newWeapon;
+        weapon.Initialize(_playerCamera, _rigLayer);
         weapon.transform.SetParent(_weaponSlots[weaponSlotIndex], false);
 
         _equippedWeapons[weaponSlotIndex] = weapon;
-        SetActiveWeapon(newWeapon.GetWeaponSlot());
+
+        SetActiveWeapon(weaponSlotIndex);
+        _isWeaponEquip = true;
     }
 
     private Weapon GetWeapon(int index)
     {
-        return _equippedWeapons[index];
+        return index != -1 ?_equippedWeapons[index] : null;
     }
 
     private void ToggleActiveWeapon()
     {
         var isHolstered = _rigLayer.GetBool(IsHolstered);
 
-        if (isHolstered)
-        {
-            StartCoroutine(ActivateWeapon(_activeWeaponIndex));
-        }
-        else
-        {
-            StartCoroutine(HolsterWeapon(_activeWeaponIndex));
-        }
+        StartCoroutine(isHolstered ? ActivateWeapon(_activeWeaponIndex) : HolsterWeapon(_activeWeaponIndex));
     }
     
     private void SetActiveWeapon(int weaponSlot)

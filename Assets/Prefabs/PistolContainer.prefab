@@ -9891,6 +9891,7 @@ GameObject:
   - component: {fileID: 7659710827157182311}
   - component: {fileID: 7659710827157182305}
   - component: {fileID: 7659710827157182310}
+  - component: {fileID: -4463976580428456754}
   m_Layer: 0
   m_Name: PistolContainer
   m_TagString: Untagged
@@ -9931,6 +9932,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shootEffect: {fileID: 7533545246064399020}
   _hitEffect: {fileID: 8047264232224643780}
+  _verticalRecoil: 1
+  _recoilDuration: 0
+  _cameraShake: {fileID: -4463976580428456754}
+  _rigLayer: {fileID: 0}
+  _playerCamera: {fileID: 0}
 --- !u!114 &7659710827157182310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9948,6 +9954,59 @@ MonoBehaviour:
   _bullet: {fileID: 4188492739308640656, guid: 2d41bd898dde9d54bb3cf5da7b72f9c3, type: 3}
   _weaponName: Pistol
   _weaponSlot: 1
+--- !u!114 &-4463976580428456754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7659710827157182308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_ImpulseShape: 2
+    m_CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ImpulseDuration: 0.2
+    m_ImpulseType: 3
+    m_DissipationRate: 0.25
+    m_RawSignal: {fileID: 11400000, guid: 083e4f2c431315f419542da5fbfc7e4f, type: 2}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 100
+    m_PropagationSpeed: 343
+  m_DefaultVelocity: {x: 0, y: -1, z: 0}
 --- !u!1 &7659710827286360546
 GameObject:
   m_ObjectHideFlags: 0
@@ -10095,7 +10154,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 10
       minScalar: 5
       maxCurve:
         serializedVersion: 2
