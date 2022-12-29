@@ -6,6 +6,7 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
     public event Action<int> OnShot;
+    public event Action<int> OnWeaponChanged;
     
     [SerializeField] private CinemachineFreeLook _playerCamera;
     [SerializeField] private Animator _rigController;
@@ -160,6 +161,8 @@ public class WeaponController : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             } while (_rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
         }
+
+        OnWeaponChanged?.Invoke(weapon.AmmoCount);
     }
     
     private void DecreaseAmmoCount(int ammoCount)

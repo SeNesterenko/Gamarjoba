@@ -23,6 +23,7 @@ public class Weapon : MonoBehaviour
     public bool IsShooting { get; private set; }
     public int MagazineSize => _magazineSize;
     public int AmmoCount => _ammoCount;
+    public GameObject Magazine => _magazine;
     
     private float _accumulatedTime;
     private float _timeForOneShot;
@@ -39,7 +40,7 @@ public class Weapon : MonoBehaviour
     public void Initialize(CinemachineFreeLook playerCamera, Animator rigController, Transform leftHand)
     {
         _reloadWeaponController = GetComponent<ReloadWeaponController>();
-        _reloadWeaponController.Initialize(rigController, gameObject.GetComponent<Weapon>(), leftHand, _magazine);
+        _reloadWeaponController.Initialize(rigController, gameObject.GetComponent<Weapon>(), leftHand);
         
         _weaponEffectController = GetComponent<WeaponEffectController>();
         _weaponEffectController.Initialize(playerCamera, rigController);

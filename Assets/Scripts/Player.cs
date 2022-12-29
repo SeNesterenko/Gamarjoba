@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public void Start()
     {
         _weaponController.OnShot += DecreaseAmmoCount;
+        _weaponController.OnWeaponChanged += DecreaseAmmoCount;
     }
 
     private void DecreaseAmmoCount(int ammoCount)
@@ -19,5 +20,6 @@ public class Player : MonoBehaviour
     public void OnDestroy()
     {
         _weaponController.OnShot -= DecreaseAmmoCount;
+        _weaponController.OnWeaponChanged += DecreaseAmmoCount;
     }
 }
