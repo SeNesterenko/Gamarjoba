@@ -1,34 +1,56 @@
+using System;
 using Cinemachine;
 using UnityEngine;
 
 [RequireComponent(typeof(WeaponEffectController))]
+[RequireComponent(typeof(ReloadWeaponController))]
 public class Weapon : MonoBehaviour
 {
+    public event Action<int> OnShot;
+    
     [SerializeField] private Transform _muzzle;
     [SerializeField] private float _rateShootPerSecond = 0.04f;
-    [SerializeField] private Bullet _bullet;
 
     [SerializeField] private string _weaponName;
     [SerializeField] private WeaponSlots _weaponSlot;
     
+    [SerializeField] private Bullet _bullet;
+    [SerializeField] private GameObject _magazine;
+
+    [SerializeField] private int _ammoCount;
+    [SerializeField] private int _magazineSize;
+
+    public bool IsShooting { get; private set; }
+    public int MagazineSize => _magazineSize;
+    public int AmmoCount => _ammoCount;
+    
     private float _accumulatedTime;
     private float _timeForOneShot;
-    public bool IsShooting { get; private set; }
-    
+
     private Ray _ray;
     private WeaponEffectController _weaponEffectController;
+    private ReloadWeaponController _reloadWeaponController;
 
     private void Start()
     {
         _timeForOneShot = 1f / _rateShootPerSecond;
     }
 
-    public void Initialize(CinemachineFreeLook playerCamera, Animator rigLayer)
+    public void Initialize(CinemachineFreeLook playerCamera, Animator rigController, Transform leftHand)
     {
+        _reloadWeaponController = GetComponent<ReloadWeaponController>();
+        _reloadWeaponController.Initialize(rigController, gameObject.GetComponent<Weapon>(), leftHand, _magazine);
+        
         _weaponEffectController = GetComponent<WeaponEffectController>();
-        _weaponEffectController.Initialize(playerCamera, rigLayer);
+        _weaponEffectController.Initialize(playerCamera, rigController);
     }
 
+    public void SetAmmoCount(int ammoCount)
+    {
+        _ammoCount = ammoCount;
+        OnShot?.Invoke(_ammoCount);
+    }
+    
     public string GetWeaponName()
     {
         return _weaponName;
@@ -63,6 +85,14 @@ public class Weapon : MonoBehaviour
 
     private void Shoot()
     {
+        if (_ammoCount <= 0)
+        {
+            return;
+        }
+        
+        _ammoCount--;
+        OnShot?.Invoke(_ammoCount);
+        
         _weaponEffectController.PlayShootEffect();
         _weaponEffectController.GenerateRecoil(_weaponName);
         

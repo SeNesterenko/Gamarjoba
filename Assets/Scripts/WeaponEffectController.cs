@@ -1,3 +1,4 @@
+using System;
 using Cinemachine;
 using UnityEngine;
 
@@ -10,11 +11,12 @@ public class WeaponEffectController : MonoBehaviour
     [SerializeField] private float _recoilDuration;
     
     [SerializeField] private CinemachineImpulseSource _cameraShake;
-    [SerializeField] private Animator _rigLayer;
+    [SerializeField] private Animator _rigController;
     
     [SerializeField] private CinemachineFreeLook _playerCamera;
-    private float _time;
     
+    private float _time;
+
     private void Update()
     {
         if (_time > 0)
@@ -27,7 +29,7 @@ public class WeaponEffectController : MonoBehaviour
     public void Initialize(CinemachineFreeLook playerCamera, Animator rigLayer)
     {
         _playerCamera = playerCamera;
-        _rigLayer = rigLayer;
+        _rigController = rigLayer;
     }
     
     public void GenerateRecoil(string weaponName)
@@ -35,7 +37,7 @@ public class WeaponEffectController : MonoBehaviour
         _time = _recoilDuration;
         _cameraShake.GenerateImpulse(Camera.main.transform.forward);
         
-        _rigLayer.Play("WeaponRecoil" + weaponName, 1, 0f);
+        _rigController.Play("WeaponRecoil" + weaponName, 1, 0f);
     }
 
     public void PlayShootEffect()

@@ -1,11 +1,16 @@
+using System;
 using System.Collections;
 using Cinemachine;
 using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
+    public event Action<int> OnShot;
+    
     [SerializeField] private CinemachineFreeLook _playerCamera;
-    [SerializeField] private Animator _rigLayer;
+    [SerializeField] private Animator _rigController;
+    [SerializeField] private Transform _leftHand;
+    
     [SerializeField] private Transform[] _weaponSlots;
 
     private readonly Weapon[] _equippedWeapons = new Weapon[2];
@@ -15,7 +20,6 @@ public class WeaponController : MonoBehaviour
     private bool _isWeaponHolstered;
     
     private static readonly int IsHolstered = Animator.StringToHash("IsHolstered");
-
     private void Start()
     {
         _activeWeaponIndex = -1;
@@ -78,11 +82,13 @@ public class WeaponController : MonoBehaviour
         
         if (weapon)
         {
+            weapon.OnShot -= DecreaseAmmoCount;
             Destroy(weapon.gameObject);
         }
-        
+
         weapon = newWeapon;
-        weapon.Initialize(_playerCamera, _rigLayer);
+        weapon.OnShot += DecreaseAmmoCount;
+        weapon.Initialize(_playerCamera, _rigController, _leftHand);
         weapon.transform.SetParent(_weaponSlots[weaponSlotIndex], false);
 
         _equippedWeapons[weaponSlotIndex] = weapon;
@@ -98,7 +104,7 @@ public class WeaponController : MonoBehaviour
 
     private void ToggleActiveWeapon()
     {
-        var isHolstered = _rigLayer.GetBool(IsHolstered);
+        var isHolstered = _rigController.GetBool(IsHolstered);
 
         StartCoroutine(isHolstered ? ActivateWeapon(_activeWeaponIndex) : HolsterWeapon(_activeWeaponIndex));
     }
@@ -130,12 +136,12 @@ public class WeaponController : MonoBehaviour
         
         if (weapon)
         {
-            _rigLayer.SetBool(IsHolstered, true);
+            _rigController.SetBool(IsHolstered, true);
 
             do
             {
                 yield return new WaitForEndOfFrame();
-            } while (_rigLayer.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
+            } while (_rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
         }
     }
     
@@ -146,13 +152,18 @@ public class WeaponController : MonoBehaviour
 
         if (weapon)
         {
-            _rigLayer.SetBool(IsHolstered, false);
-            _rigLayer.Play("Equip" + weapon.GetWeaponName());
+            _rigController.SetBool(IsHolstered, false);
+            _rigController.Play("Equip" + weapon.GetWeaponName());
             
             do
             {
                 yield return new WaitForEndOfFrame();
-            } while (_rigLayer.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
+            } while (_rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
         }
+    }
+    
+    private void DecreaseAmmoCount(int ammoCount)
+    {
+        OnShot?.Invoke(ammoCount);
     }
 }

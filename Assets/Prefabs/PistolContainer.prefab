@@ -9892,6 +9892,7 @@ GameObject:
   - component: {fileID: 7659710827157182305}
   - component: {fileID: 7659710827157182310}
   - component: {fileID: -4463976580428456754}
+  - component: {fileID: -598328512215580722}
   m_Layer: 0
   m_Name: PistolContainer
   m_TagString: Untagged
@@ -9935,7 +9936,7 @@ MonoBehaviour:
   _verticalRecoil: 1
   _recoilDuration: 0
   _cameraShake: {fileID: -4463976580428456754}
-  _rigLayer: {fileID: 0}
+  _rigController: {fileID: 0}
   _playerCamera: {fileID: 0}
 --- !u!114 &7659710827157182310
 MonoBehaviour:
@@ -9951,9 +9952,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _muzzle: {fileID: 7659710827286360557}
   _rateShootPerSecond: 0.5
-  _bullet: {fileID: 4188492739308640656, guid: 2d41bd898dde9d54bb3cf5da7b72f9c3, type: 3}
   _weaponName: Pistol
   _weaponSlot: 1
+  _bullet: {fileID: 4188492739308640656, guid: 2d41bd898dde9d54bb3cf5da7b72f9c3, type: 3}
+  _magazine: {fileID: 0}
 --- !u!114 &-4463976580428456754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10007,6 +10009,18 @@ MonoBehaviour:
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
   m_DefaultVelocity: {x: 0, y: -1, z: 0}
+--- !u!114 &-598328512215580722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7659710827157182308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee42bd6254a44b079a337b81c1e52541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7659710827286360546
 GameObject:
   m_ObjectHideFlags: 0
