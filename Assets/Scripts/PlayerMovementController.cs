@@ -6,7 +6,7 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private float _gravity;
     [SerializeField] private float _stepDown;
     
-    private Vector3 velocity;
+    private Vector3 _velocity;
     private bool _isJumping;
     
     private Vector3 _rootMotion;
@@ -17,7 +17,8 @@ public class PlayerMovementController : MonoBehaviour
     
     private static readonly int InputX = Animator.StringToHash("InputX");
     private static readonly int InputY = Animator.StringToHash("InputY");
-    private static readonly int IsJumping = Animator.StringToHash("isJumping");
+    private static readonly int IsJumping = Animator.StringToHash("IsJumping");
+    private static readonly int IsSprinting = Animator.StringToHash("IsSprinting");
 
     private void Start()
     {
@@ -33,6 +34,8 @@ public class PlayerMovementController : MonoBehaviour
         _animator.SetFloat(InputX, _input.x);
         _animator.SetFloat(InputY, _input.y);
 
+        UpdateIsSprinting();
+        
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
@@ -43,8 +46,8 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (_isJumping)
         {
-            velocity.y -= _gravity * Time.fixedDeltaTime;
-            _characterController.Move(velocity * Time.fixedDeltaTime);
+            _velocity.y -= _gravity * Time.fixedDeltaTime;
+            _characterController.Move(_velocity * Time.fixedDeltaTime);
 
             _isJumping = !_characterController.isGrounded;
             _rootMotion = Vector3.zero;
@@ -58,8 +61,8 @@ public class PlayerMovementController : MonoBehaviour
         {
             _isJumping = true;
             _animator.SetBool(IsJumping, true);
-            velocity = _animator.velocity;
-            velocity.y = 0;
+            _velocity = _animator.velocity;
+            _velocity.y = 0;
         }
         else
         {
@@ -79,8 +82,14 @@ public class PlayerMovementController : MonoBehaviour
             _isJumping = true;
             _animator.SetBool(IsJumping, true);
             
-            velocity = _animator.velocity;
-            velocity.y = Mathf.Sqrt(2 * _gravity * _jumpHeight);
+            _velocity = _animator.velocity;
+            _velocity.y = Mathf.Sqrt(2 * _gravity * _jumpHeight);
         }
+    }
+
+    private void UpdateIsSprinting()
+    {
+        var isSprinting = Input.GetKey(KeyCode.LeftShift);
+        _animator.SetBool(IsSprinting, isSprinting);
     }
 }

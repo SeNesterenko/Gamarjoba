@@ -19,8 +19,11 @@ public class WeaponController : MonoBehaviour
     
     private bool _isWeaponEquip;
     private bool _isWeaponHolstered;
-    
+
     private static readonly int IsHolstered = Animator.StringToHash("IsHolstered");
+    private static readonly int IsSprinting = Animator.StringToHash("IsSprinting");
+    private static readonly int WeaponIndex = Animator.StringToHash("WeaponIndex");
+
     private void Start()
     {
         _activeWeaponIndex = -1;
@@ -58,6 +61,14 @@ public class WeaponController : MonoBehaviour
             {
                 return;
             }
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                _rigController.SetBool(IsSprinting, true);
+                return;
+            }
+            
+            _rigController.SetBool(IsSprinting, false);
             
             if (Input.GetMouseButtonDown(0))
             {
@@ -122,6 +133,8 @@ public class WeaponController : MonoBehaviour
     
     private IEnumerator SwitchWeapon(int holsterIndex, int activateIndex)
     {
+        _rigController.SetInteger(WeaponIndex, activateIndex);
+        
         yield return StartCoroutine(HolsterWeapon(holsterIndex));
         
         yield return new WaitForSeconds(0.5f); // TODO: remove this crutch

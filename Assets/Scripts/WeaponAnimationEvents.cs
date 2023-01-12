@@ -7,12 +7,10 @@ public class AnimationEvent : UnityEvent<string>
 }
 public class WeaponAnimationEvents : MonoBehaviour
 {
-    public AnimationEvent WeaponAnimationEvent => _weaponAnimationEvent;
-    
-    private AnimationEvent _weaponAnimationEvent = new ();
+    public AnimationEvent WeaponAnimationEvent { get; } = new ();
 
     private void OnAnimationEvent(string eventName)
     {
-        _weaponAnimationEvent.Invoke(eventName);
+        WeaponAnimationEvent.Invoke(eventName);
     }
 }
