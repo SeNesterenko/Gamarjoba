@@ -28,12 +28,7 @@ public class PlayerMovementController : MonoBehaviour
 
     private void Update()
     {
-        _input.x = Input.GetAxis("Horizontal");
-        _input.y = Input.GetAxis("Vertical");
-        
-        _animator.SetFloat(InputX, _input.x);
-        _animator.SetFloat(InputY, _input.y);
-
+        HandlesUserInput();
         UpdateIsSprinting();
         
         if (Input.GetKeyDown(KeyCode.Space))
@@ -46,28 +41,14 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (_isJumping)
         {
-            _velocity.y -= _gravity * Time.fixedDeltaTime;
-            _characterController.Move(_velocity * Time.fixedDeltaTime);
-
-            _isJumping = !_characterController.isGrounded;
-            _rootMotion = Vector3.zero;
+            UseGravityOnCharacter();
             return;
         }
         
         _characterController.Move(_rootMotion + Vector3.down * _stepDown);
         _rootMotion = Vector3.zero;
 
-        if (!_characterController.isGrounded)
-        {
-            _isJumping = true;
-            _animator.SetBool(IsJumping, true);
-            _velocity = _animator.velocity;
-            _velocity.y = 0;
-        }
-        else
-        {
-            _animator.SetBool(IsJumping, false);
-        }
+        CheckCharacterOnGround();
     }
 
     private void OnAnimatorMove()
@@ -91,5 +72,38 @@ public class PlayerMovementController : MonoBehaviour
     {
         var isSprinting = Input.GetKey(KeyCode.LeftShift);
         _animator.SetBool(IsSprinting, isSprinting);
+    }
+
+    private void HandlesUserInput()
+    {
+        _input.x = Input.GetAxis("Horizontal");
+        _input.y = Input.GetAxis("Vertical");
+
+        _animator.SetFloat(InputX, _input.x);
+        _animator.SetFloat(InputY, _input.y);
+    }
+    
+    private void CheckCharacterOnGround()
+    {
+        if (!_characterController.isGrounded)
+        {
+            _isJumping = true;
+            _animator.SetBool(IsJumping, true);
+            _velocity = _animator.velocity;
+            _velocity.y = 0;
+        }
+        else
+        {
+            _animator.SetBool(IsJumping, false);
+        }
+    }
+    
+    private void UseGravityOnCharacter()
+    {
+        _velocity.y -= _gravity * Time.fixedDeltaTime;
+        _characterController.Move(_velocity * Time.fixedDeltaTime);
+
+        _isJumping = !_characterController.isGrounded;
+        _rootMotion = Vector3.zero;
     }
 }

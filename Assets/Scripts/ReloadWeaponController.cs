@@ -12,7 +12,6 @@ public class ReloadWeaponController : MonoBehaviour
     private GameObject _magazineHand;
     
     private static readonly int IsReloading = Animator.StringToHash("IsReloading");
-    private static readonly int IsSprinting = Animator.StringToHash("IsSprinting");
 
     private void Start()
     {

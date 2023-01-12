@@ -13,6 +13,11 @@ public class PlayerRotationController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        HandlesUserRotation();
+    }
+
+    private void HandlesUserRotation()
+    {
         var step = _rotationSpeed * Time.fixedDeltaTime;
         var yawCamera = _mainCamera.transform.rotation.eulerAngles.y;
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0,yawCamera,0), step);

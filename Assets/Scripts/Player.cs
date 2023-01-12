@@ -1,13 +1,20 @@
-using System;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerMovementController))]
+[RequireComponent(typeof(PlayerRotationController))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private WeaponController _weaponController;
     [SerializeField] private AmmoView _ammoView;
-
+    
+    private PlayerMovementController _playerMovementController;
+    private PlayerRotationController _playerRotationController;
+    
     public void Start()
     {
+        _playerMovementController = GetComponent<PlayerMovementController>();
+        _playerRotationController = GetComponent<PlayerRotationController>();
+        
         _weaponController.OnShot += DecreaseAmmoCount;
         _weaponController.OnWeaponChanged += DecreaseAmmoCount;
     }
