@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovementController : MonoBehaviour
 {
@@ -26,17 +27,6 @@ public class PlayerMovementController : MonoBehaviour
         _characterController = GetComponent<CharacterController>();
     }
 
-    private void Update()
-    {
-        HandlesUserInput();
-        UpdateIsSprinting();
-        
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Jump();
-        }
-    }
-
     private void FixedUpdate()
     {
         if (_isJumping)
@@ -56,7 +46,7 @@ public class PlayerMovementController : MonoBehaviour
         _rootMotion += _animator.deltaPosition;
     }
 
-    private void Jump()
+    public void OnJump(InputAction.CallbackContext callbackContext)
     {
         if (!_isJumping)
         {
@@ -68,19 +58,16 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 
-    private void UpdateIsSprinting()
+    public void Sprint(float inputValue)
     {
-        var isSprinting = Input.GetKey(KeyCode.LeftShift);
+        var isSprinting = inputValue > 0;
         _animator.SetBool(IsSprinting, isSprinting);
     }
 
-    private void HandlesUserInput()
+    public void Move(Vector2 inputValue)
     {
-        _input.x = Input.GetAxis("Horizontal");
-        _input.y = Input.GetAxis("Vertical");
-
-        _animator.SetFloat(InputX, _input.x);
-        _animator.SetFloat(InputY, _input.y);
+        _animator.SetFloat(InputX, inputValue.x);
+        _animator.SetFloat(InputY, inputValue.y);
     }
     
     private void CheckCharacterOnGround()

@@ -20,9 +20,9 @@ public class ReloadWeaponController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R) || _weapon.AmmoCount <= 0)
+        if (_weapon.AmmoCount <= 0)
         {
-            _rigController.SetTrigger(IsReloading);
+            OnReloadWeapon();
         }
     }
 
@@ -34,6 +34,10 @@ public class ReloadWeaponController : MonoBehaviour
         _leftHand = leftHand;
     }
 
+    public void OnReloadWeapon()
+    {
+        _rigController.SetTrigger(IsReloading);
+    }
     private void OnAnimationEvent(string eventName)
     {
         if (Enum.TryParse(eventName, out StepsReloadingWeapon stepsReloadingWeapon))

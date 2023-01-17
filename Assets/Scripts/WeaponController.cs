@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class WeaponController : MonoBehaviour
 {
@@ -21,7 +22,6 @@ public class WeaponController : MonoBehaviour
     private bool _isWeaponHolstered;
 
     private static readonly int IsHolstered = Animator.StringToHash("IsHolstered");
-    private static readonly int IsSprinting = Animator.StringToHash("IsSprinting");
     private static readonly int WeaponIndex = Animator.StringToHash("WeaponIndex");
 
     private void Start()
@@ -33,57 +33,6 @@ public class WeaponController : MonoBehaviour
         if (existingWeapon)
         {
             EquipWeapon(existingWeapon);
-        }
-    }
-
-    private void Update()
-    {
-        if (_isWeaponEquip)
-        {
-            var weapon = GetWeapon(_activeWeaponIndex);
-            
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                ToggleActiveWeapon();
-            }
-            
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                SetActiveWeapon((int) WeaponSlots.Primary);
-            }
-            
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                SetActiveWeapon((int) WeaponSlots.Secondary);
-            }
-
-            if (_isWeaponHolstered)
-            {
-                return;
-            }
-
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                _rigController.SetBool(IsSprinting, true);
-                return;
-            }
-            
-            _rigController.SetBool(IsSprinting, false);
-            
-            if (Input.GetMouseButtonDown(0))
-            {
-                weapon.StartShooting();
-            }
-            
-            if (weapon.IsShooting)
-            {
-                weapon.UpdateShooting(Time.deltaTime);
-            }
-            
-            if (Input.GetMouseButtonUp(0))
-            {
-                weapon.StopShooting();   
-            }
         }
     }
 
@@ -109,16 +58,62 @@ public class WeaponController : MonoBehaviour
         _isWeaponEquip = true;
     }
 
+    public void ToggleActiveWeapon(InputAction.CallbackContext callbackContext)
+    {
+        if (_isWeaponEquip)
+        {
+            var isHolstered = _rigController.GetBool(IsHolstered);
+            StartCoroutine(isHolstered ? ActivateWeapon(_activeWeaponIndex) : HolsterWeapon(_activeWeaponIndex));
+        }
+    }
+
+    public void SetPrimaryWeapon(InputAction.CallbackContext callbackContext)
+    {
+        if (_isWeaponEquip)
+        {
+           SetActiveWeapon((int) WeaponSlots.Primary); 
+        }
+    }
+    
+    public void SetSecondaryWeapon(InputAction.CallbackContext callbackContext)
+    {
+        if (_isWeaponEquip)
+        {
+            SetActiveWeapon((int) WeaponSlots.Secondary);
+        }
+    }
+
+    public void ControlShooting(float inputValue)
+    {
+        if (_isWeaponEquip)
+        {
+            if (_isWeaponHolstered)
+            {
+                return;
+            }
+
+            var weapon = GetWeapon(_activeWeaponIndex);
+                    
+            if (inputValue > 0 && !weapon.IsShooting)
+            {
+                weapon.StartShooting();
+            }
+
+            if (weapon.IsShooting)
+            {
+                weapon.UpdateShooting(Time.deltaTime);
+            }
+            
+            if (inputValue == 0)
+            {
+                weapon.StopShooting();
+            }
+        }
+    }
+
     private Weapon GetWeapon(int index)
     {
         return index != -1 ?_equippedWeapons[index] : null;
-    }
-
-    private void ToggleActiveWeapon()
-    {
-        var isHolstered = _rigController.GetBool(IsHolstered);
-
-        StartCoroutine(isHolstered ? ActivateWeapon(_activeWeaponIndex) : HolsterWeapon(_activeWeaponIndex));
     }
     
     private void SetActiveWeapon(int weaponSlot)
