@@ -38,7 +38,8 @@ public class Player : MonoBehaviour
 
         var inputSprintValue = _playerInputActions.Player.Sprint.ReadValue<float>();
         _playerMovementController.Sprint(inputSprintValue);
-
+        _weaponController.WeaponSprint(inputSprintValue);
+        
         var inputShootValue = _playerInputActions.Player.Shoot.ReadValue<float>();
         _weaponController.ControlShooting(inputShootValue);
     }

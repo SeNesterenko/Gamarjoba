@@ -23,6 +23,7 @@ public class WeaponController : MonoBehaviour
 
     private static readonly int IsHolstered = Animator.StringToHash("IsHolstered");
     private static readonly int WeaponIndex = Animator.StringToHash("WeaponIndex");
+    private static readonly int IsSprinting = Animator.StringToHash("IsSprinting");
 
     private void Start()
     {
@@ -109,6 +110,12 @@ public class WeaponController : MonoBehaviour
                 weapon.StopShooting();
             }
         }
+    }
+
+    public void WeaponSprint(float inputValue)
+    {
+        var isSprinting = inputValue > 0;
+        _rigController.SetBool(IsSprinting, isSprinting);
     }
 
     private Weapon GetWeapon(int index)
